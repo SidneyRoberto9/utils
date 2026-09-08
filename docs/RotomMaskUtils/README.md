@@ -1,0 +1,26 @@
+# RotomMaskUtils
+
+Pacote: `io.github.sidneyroberto9.rotom.mask`
+Arquivo: `src/main/java/io/github/sidneyroberto9/rotom/mask/RotomMaskUtils.java`
+
+Utilitário para mascarar números de documento sensíveis, para exibição amigável à LGPD.
+Introduzido na v1.1.0. Diferente de [`RotomCPFService`](../RotomCPFService/README.md) e
+[`RotomCNPJService`](../RotomCNPJService/README.md), que apenas aplicam a máscara padrão de pontuação, os
+métodos aqui **ocultam a maior parte dos dígitos**.
+
+## Construtor
+
+```java
+RotomMaskUtils maskUtils = new RotomMaskUtils();
+```
+
+## Bean Spring
+
+Com `RotomAutoConfiguration` ativo, um bean `RotomMaskUtils` fica disponível para injeção.
+
+## Métodos
+
+| Método | Retorno | Descrição |
+|---|---|---|
+| [`maskCpf(String cpf)`](maskCpf.md) | `String` | mostra só os 3 primeiros e 2 últimos dígitos |
+| [`maskCnpj(String cnpj)`](maskCnpj.md) | `String` | mostra só os 2 primeiros dígitos e o bloco da filial |

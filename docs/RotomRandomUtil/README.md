@@ -1,0 +1,28 @@
+# RotomRandomUtil
+
+Pacote: `io.github.sidneyroberto9.rotom.random`
+Arquivo: `src/main/java/io/github/sidneyroberto9/rotom/random/RotomRandomUtil.java`
+
+Utilitário para geração de números, strings, tokens e API keys aleatórios. Baseado em
+`SecureRandom` (aleatoriedade criptograficamente forte). Introduzido na v1.1.0.
+
+## Construtor
+
+```java
+RotomRandomUtil random = new RotomRandomUtil();
+```
+
+## Bean Spring
+
+Com `RotomAutoConfiguration` ativo, um bean `RotomRandomUtil` fica disponível para injeção.
+
+## Métodos
+
+| Método | Retorno | Descrição |
+|---|---|---|
+| [`randomInt(int min, int max)`](randomInt.md) | `int` | inteiro aleatório no intervalo `[min, max]` |
+| [`randomAlphanumeric(int size)`](randomAlphanumeric.md) | `String` | string aleatória A-Z0-9 |
+| [`randomNumeric(int size)`](randomNumeric.md) | `String` | string aleatória só dígitos |
+| [`randomCode(int size)`](randomCode.md) | `String` | alias de `randomAlphanumeric`, p/ códigos de verificação |
+| [`token(int limit)`](token.md) | `String` | token truncado de UUID sem hífens |
+| [`apiKey()` / `apiKey(String prefix)`](apiKey.md) | `String` | API key com prefixo + 12 chars hex |

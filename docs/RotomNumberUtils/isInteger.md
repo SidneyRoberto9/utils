@@ -1,0 +1,36 @@
+# RotomNumberUtils.isInteger(String value)
+
+**Pacote:** `io.github.sidneyroberto9.rotom.validation`
+**Arquivo:** `RotomNumberUtils.java`
+
+## Descrição
+
+Verifica se a string pode ser convertida para `int` via `Integer.parseInt`.
+
+## Parâmetros
+
+| Nome | Tipo | Significado |
+|---|---|---|
+| `value` | `String` | string a verificar |
+
+## Retorno
+
+`boolean` — `true` se for um inteiro válido, `false` caso contrário.
+
+## Comportamento de borda
+
+- `value == null` ou `value.isEmpty()` → `false`.
+- Valores fora do intervalo de `int` (ex. maiores que `Integer.MAX_VALUE`) → `false`
+  (`NumberFormatException` capturada).
+- Aceita sinal `+`/`-` e não aceita separadores de milhar nem casas decimais.
+
+## Exemplo
+
+```java
+RotomNumberUtils numberUtils = new RotomNumberUtils();
+
+numberUtils.isInteger("42");     // true
+numberUtils.isInteger("-42");    // true
+numberUtils.isInteger("4.2");    // false
+numberUtils.isInteger(null);      // false
+```
