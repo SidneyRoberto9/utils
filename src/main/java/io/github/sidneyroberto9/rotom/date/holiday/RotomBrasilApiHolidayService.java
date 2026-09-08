@@ -20,10 +20,20 @@ import java.util.Set;
  */
 public class RotomBrasilApiHolidayService {
 
-    private static final String HOLIDAYS_URL = "https://brasilapi.com.br/api/feriados/v1/";
+    private static final String DEFAULT_HOLIDAYS_URL = "https://brasilapi.com.br/api/feriados/v1/";
 
     private static final OkHttpClient HTTP = new OkHttpClient();
     private static final ObjectMapper MAPPER = new ObjectMapper();
+
+    private final String holidaysUrl;
+
+    public RotomBrasilApiHolidayService() {
+        this(DEFAULT_HOLIDAYS_URL);
+    }
+
+    RotomBrasilApiHolidayService(String holidaysUrl) {
+        this.holidaysUrl = holidaysUrl;
+    }
 
     /**
      * Fetches the Brazilian national holidays for the given year.
@@ -33,7 +43,7 @@ public class RotomBrasilApiHolidayService {
      * @throws IOException if the request fails or the response cannot be parsed
      */
     public Set<LocalDate> getHolidays(int year) throws IOException {
-        JsonNode holidays = this.get(HOLIDAYS_URL + year);
+        JsonNode holidays = this.get(this.holidaysUrl + year);
         Set<LocalDate> dates = new LinkedHashSet<>();
 
         for (JsonNode holiday : holidays) {
