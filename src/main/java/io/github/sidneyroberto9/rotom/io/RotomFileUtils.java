@@ -12,7 +12,7 @@ import java.util.Base64;
  * Utility class for common file operations: Base64 encoding, human-readable size formatting,
  * and moving files into the current working directory.
  */
-public class FileUtils {
+public class RotomFileUtils {
 
     private static final String SIZE_UNITS = " KMGTPE";
 

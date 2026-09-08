@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
  * Utility class for computing and describing the duration between two points in time, with
  * Portuguese-language human-readable output.
  */
-public class DurationUtils {
+public class RotomDurationUtils {
 
     /**
      * Computes the number of whole days between two date-times.

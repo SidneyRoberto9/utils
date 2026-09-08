@@ -4,9 +4,9 @@ import java.util.regex.Pattern;
 
 /**
  * Utilities for CEP (Brazilian postal code) normalization, validation, and formatting
- * without any external HTTP calls. For address lookup, use {@link CepService}.
+ * without any external HTTP calls. For address lookup, use {@link RotomCepService}.
  */
-public class CepUtils {
+public class RotomCepUtils {
 
     private static final Pattern NON_DIGIT = Pattern.compile("\\D");
     private static final Pattern EIGHT_DIGITS = Pattern.compile("\\d{8}");

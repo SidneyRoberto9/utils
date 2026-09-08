@@ -15,16 +15,16 @@ import java.util.Date;
  * Uses the jollyday library for holiday identification.
  * All methods are overloaded for {@link LocalDate}, {@link LocalDateTime}, and {@link Date}.
  */
-public class DateService {
+public class RotomDateService {
 
     private final HolidayManager holidayManager;
     private final ZoneId zone;
-    private final DateUtils dateUtils;
+    private final RotomDateUtils dateUtils;
 
     /**
      * Creates the service with the Brazilian holiday calendar and the system default timezone.
      */
-    public DateService() {
+    public RotomDateService() {
         this(HolidayManager.getInstance(ManagerParameters.create(HolidayCalendar.BRAZIL)), ZoneId.systemDefault());
     }
 
@@ -33,7 +33,7 @@ public class DateService {
      *
      * @param holidayManager holiday manager to use
      */
-    public DateService(HolidayManager holidayManager) {
+    public RotomDateService(HolidayManager holidayManager) {
         this(holidayManager, ZoneId.systemDefault());
     }
 
@@ -43,10 +43,10 @@ public class DateService {
      * @param holidayManager holiday manager to use
      * @param zone           timezone used when converting legacy {@link Date} instances
      */
-    public DateService(HolidayManager holidayManager, ZoneId zone) {
+    public RotomDateService(HolidayManager holidayManager, ZoneId zone) {
         this.holidayManager = holidayManager;
         this.zone = zone;
-        this.dateUtils = new DateUtils();
+        this.dateUtils = new RotomDateUtils();
     }
 
     /**

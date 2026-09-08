@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /**
  * Utility class for validating password strength.
  */
-public class PasswordValidator {
+public class RotomPasswordValidator {
 
     private static final Pattern STRONG_PASSWORD = Pattern.compile(
             "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#_$%^&<>?,/:;|'\"+!.}(){%~^$])(?=\\S+$).{8,16}$"

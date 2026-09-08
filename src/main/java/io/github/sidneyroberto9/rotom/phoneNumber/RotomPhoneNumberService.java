@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Supports mobile phones (9 local digits) and landlines (8 local digits),
  * with or without area code (DDD) and country code (+55).
  */
-public class PhoneNumberService {
+public class RotomPhoneNumberService {
 
     private static final Pattern MOBILE_FORMATTED = Pattern.compile("\\(\\d{2}\\) 9\\d{4}-\\d{4}");
     private static final Pattern LANDLINE_FORMATTED = Pattern.compile("\\(\\d{2}\\) \\d{4}-\\d{4}");

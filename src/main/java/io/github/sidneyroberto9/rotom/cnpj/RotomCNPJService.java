@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Service for validation and formatting of CNPJ (Brazilian company taxpayer registry).
  * All methods accept CNPJ with or without a mask.
  */
-public class CNPJService {
+public class RotomCNPJService {
 
     private static final Pattern FORMATTED = Pattern.compile("\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}");
 

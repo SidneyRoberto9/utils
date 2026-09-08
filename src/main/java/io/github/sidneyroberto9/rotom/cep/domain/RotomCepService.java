@@ -10,15 +10,15 @@ import java.util.Optional;
  * Tries each provider in order; if one fails or returns no data, the next one is attempted automatically.
  * Default providers: ViaCEP, OpenCEP, BrasilCEP, CEP.Rest, Zippopotam.
  */
-public class CepService {
+public class RotomCepService {
 
     private final List<CepProvider> providers;
-    private final CepUtils cepUtils;
+    private final RotomCepUtils cepUtils;
 
     /**
      * Creates the service with the 5 default providers in priority order.
      */
-    public CepService() {
+    public RotomCepService() {
         this(List.of(
                 new ViaCepProvider(),
                 new OpenCepProvider(),
@@ -33,9 +33,9 @@ public class CepService {
      *
      * @param providers list of providers to use, in priority order
      */
-    public CepService(List<CepProvider> providers) {
+    public RotomCepService(List<CepProvider> providers) {
         this.providers = providers;
-        this.cepUtils = new CepUtils();
+        this.cepUtils = new RotomCepUtils();
     }
 
     /**

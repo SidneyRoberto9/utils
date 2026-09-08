@@ -7,7 +7,7 @@ import java.util.UUID;
  * Utility class for generating random numbers, strings, tokens, and API keys.
  * Backed by {@link SecureRandom} for cryptographically strong randomness.
  */
-public class RandomUtil {
+public class RotomRandomUtil {
 
     private static final String ALPHANUMERIC = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final String NUMERIC = "0123456789";

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Service for validation and formatting of CPF (Brazilian individual taxpayer registry).
  * All methods accept CPF with or without a mask.
  */
-public class CPFService {
+public class RotomCPFService {
 
     private static final Pattern FORMATTED = Pattern.compile("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}");
 

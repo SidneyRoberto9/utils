@@ -1,27 +1,30 @@
 package io.github.sidneyroberto9.rotom.autoconfigure;
 
-import io.github.sidneyroberto9.rotom.cep.domain.CepService;
-import io.github.sidneyroberto9.rotom.cep.domain.CepUtils;
-import io.github.sidneyroberto9.rotom.cnpj.CNPJService;
-import io.github.sidneyroberto9.rotom.collections.CollectionUtils;
-import io.github.sidneyroberto9.rotom.cpf.CPFService;
-import io.github.sidneyroberto9.rotom.date.DateService;
-import io.github.sidneyroberto9.rotom.date.DateUtils;
-import io.github.sidneyroberto9.rotom.date.DurationUtils;
-import io.github.sidneyroberto9.rotom.date.holiday.BrasilApiHolidayService;
-import io.github.sidneyroberto9.rotom.encoding.EncodingUtils;
-import io.github.sidneyroberto9.rotom.hash.HashUtils;
-import io.github.sidneyroberto9.rotom.io.FileUtils;
-import io.github.sidneyroberto9.rotom.mask.MaskUtils;
-import io.github.sidneyroberto9.rotom.money.MoneyUtils;
-import io.github.sidneyroberto9.rotom.phoneNumber.PhoneNumberService;
-import io.github.sidneyroberto9.rotom.random.RandomUtil;
-import io.github.sidneyroberto9.rotom.sms.Gsm7Converter;
-import io.github.sidneyroberto9.rotom.strings.StringUtils;
-import io.github.sidneyroberto9.rotom.validation.EmailValidator;
-import io.github.sidneyroberto9.rotom.validation.NumberUtils;
-import io.github.sidneyroberto9.rotom.validation.PasswordValidator;
+import io.github.sidneyroberto9.rotom.cep.domain.RotomCepService;
+import io.github.sidneyroberto9.rotom.cep.domain.RotomCepUtils;
+import io.github.sidneyroberto9.rotom.cnpj.RotomCNPJService;
+import io.github.sidneyroberto9.rotom.collections.RotomCollectionUtils;
+import io.github.sidneyroberto9.rotom.cpf.RotomCPFService;
+import io.github.sidneyroberto9.rotom.crypto.RotomCryptoUtils;
+import io.github.sidneyroberto9.rotom.date.RotomDateService;
+import io.github.sidneyroberto9.rotom.date.RotomDateUtils;
+import io.github.sidneyroberto9.rotom.date.RotomDurationUtils;
+import io.github.sidneyroberto9.rotom.date.holiday.RotomBrasilApiHolidayService;
+import io.github.sidneyroberto9.rotom.encoding.RotomEncodingUtils;
+import io.github.sidneyroberto9.rotom.hash.RotomHashUtils;
+import io.github.sidneyroberto9.rotom.http.RotomHttpUtils;
+import io.github.sidneyroberto9.rotom.io.RotomFileUtils;
+import io.github.sidneyroberto9.rotom.mask.RotomMaskUtils;
+import io.github.sidneyroberto9.rotom.money.RotomMoneyUtils;
+import io.github.sidneyroberto9.rotom.phoneNumber.RotomPhoneNumberService;
+import io.github.sidneyroberto9.rotom.random.RotomRandomUtil;
+import io.github.sidneyroberto9.rotom.sms.RotomGsm7Converter;
+import io.github.sidneyroberto9.rotom.strings.RotomStringUtils;
+import io.github.sidneyroberto9.rotom.validation.RotomEmailValidator;
+import io.github.sidneyroberto9.rotom.validation.RotomNumberUtils;
+import io.github.sidneyroberto9.rotom.validation.RotomPasswordValidator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
@@ -30,127 +33,140 @@ public class RotomAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CepUtils cepUtils() {
-        return new CepUtils();
+    public RotomCepUtils cepUtils() {
+        return new RotomCepUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CepService cepService() {
-        return new CepService();
+    public RotomCepService cepService() {
+        return new RotomCepService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CPFService cpfService() {
-        return new CPFService();
+    public RotomCPFService cpfService() {
+        return new RotomCPFService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CNPJService cnpjService() {
-        return new CNPJService();
+    public RotomCNPJService cnpjService() {
+        return new RotomCNPJService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public PhoneNumberService phoneNumberService() {
-        return new PhoneNumberService();
+    public RotomPhoneNumberService phoneNumberService() {
+        return new RotomPhoneNumberService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public DateUtils dateUtils() {
-        return new DateUtils();
+    public RotomDateUtils dateUtils() {
+        return new RotomDateUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public DateService dateService() {
-        return new DateService();
+    public RotomDateService dateService() {
+        return new RotomDateService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public StringUtils stringUtils() {
-        return new StringUtils();
+    public RotomStringUtils stringUtils() {
+        return new RotomStringUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public RandomUtil randomUtil() {
-        return new RandomUtil();
+    public RotomRandomUtil randomUtil() {
+        return new RotomRandomUtil();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public EncodingUtils encodingUtils() {
-        return new EncodingUtils();
+    public RotomEncodingUtils encodingUtils() {
+        return new RotomEncodingUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public HashUtils hashUtils() {
-        return new HashUtils();
+    public RotomHashUtils hashUtils() {
+        return new RotomHashUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public Gsm7Converter gsm7Converter() {
-        return new Gsm7Converter();
+    public RotomGsm7Converter gsm7Converter() {
+        return new RotomGsm7Converter();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public EmailValidator emailValidator() {
-        return new EmailValidator();
+    public RotomEmailValidator emailValidator() {
+        return new RotomEmailValidator();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public PasswordValidator passwordValidator() {
-        return new PasswordValidator();
+    public RotomPasswordValidator passwordValidator() {
+        return new RotomPasswordValidator();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public NumberUtils numberUtils() {
-        return new NumberUtils();
+    public RotomNumberUtils numberUtils() {
+        return new RotomNumberUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public MoneyUtils moneyUtils() {
-        return new MoneyUtils();
+    public RotomMoneyUtils moneyUtils() {
+        return new RotomMoneyUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public FileUtils fileUtils() {
-        return new FileUtils();
+    public RotomFileUtils fileUtils() {
+        return new RotomFileUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public MaskUtils maskUtils() {
-        return new MaskUtils();
+    public RotomMaskUtils maskUtils() {
+        return new RotomMaskUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public DurationUtils durationUtils() {
-        return new DurationUtils();
+    public RotomDurationUtils durationUtils() {
+        return new RotomDurationUtils();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public BrasilApiHolidayService brasilApiHolidayService() {
-        return new BrasilApiHolidayService();
+    public RotomBrasilApiHolidayService brasilApiHolidayService() {
+        return new RotomBrasilApiHolidayService();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public CollectionUtils collectionUtils() {
-        return new CollectionUtils();
+    public RotomCollectionUtils collectionUtils() {
+        return new RotomCollectionUtils();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RotomCryptoUtils cryptoUtils() {
+        return new RotomCryptoUtils();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnClass(name = "jakarta.servlet.http.HttpServletRequest")
+    public RotomHttpUtils httpUtils() {
+        return new RotomHttpUtils();
     }
 }

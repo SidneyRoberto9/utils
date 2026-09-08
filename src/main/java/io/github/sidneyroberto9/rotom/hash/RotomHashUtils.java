@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * Utility class for computing cryptographic hashes (checksums) of byte arrays, strings, streams,
  * and files.
  */
-public class HashUtils {
+public class RotomHashUtils {
 
     private static final int BUFFER_SIZE = 8192;
 

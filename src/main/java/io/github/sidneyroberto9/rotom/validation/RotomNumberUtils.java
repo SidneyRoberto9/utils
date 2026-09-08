@@ -3,7 +3,7 @@ package io.github.sidneyroberto9.rotom.validation;
 /**
  * Utility class for checking whether a string represents a valid number.
  */
-public class NumberUtils {
+public class RotomNumberUtils {
 
     /**
      * Checks whether the given string can be parsed as an {@code int}.

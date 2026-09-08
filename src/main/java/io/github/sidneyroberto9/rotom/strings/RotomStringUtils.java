@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * Utility class for string manipulation with Brazilian Portuguese support.
  * Includes capitalization with connectives, slugification, accent removal, and email operations.
  */
-public class StringUtils {
+public class RotomStringUtils {
 
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
     private static final Pattern NON_DIGIT = Pattern.compile("[^\\d]");

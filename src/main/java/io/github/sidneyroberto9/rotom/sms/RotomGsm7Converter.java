@@ -7,7 +7,7 @@ import java.util.Map;
  * Characters already within the GSM-7 charset pass through unchanged; accented characters are
  * folded to their closest ASCII equivalent; any other character is silently dropped.
  */
-public class Gsm7Converter {
+public class RotomGsm7Converter {
 
     private static final Map<Character, Character> ACCENT_FALLBACK = Map.ofEntries(
             Map.entry('á', 'a'), Map.entry('à', 'a'), Map.entry('â', 'a'), Map.entry('ã', 'a'), Map.entry('ä', 'a'),

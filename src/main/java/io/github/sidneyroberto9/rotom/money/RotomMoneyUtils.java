@@ -7,7 +7,7 @@ import java.util.Locale;
 /**
  * Utility class for formatting monetary values as Brazilian Real (BRL) currency.
  */
-public class MoneyUtils {
+public class RotomMoneyUtils {
 
     private static final Locale PT_BR = new Locale("pt", "BR");
 

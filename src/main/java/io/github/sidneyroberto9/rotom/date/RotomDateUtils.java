@@ -11,7 +11,7 @@ import java.util.Date;
  * Utility class for date conversions, temporal checks, and formatting.
  * All methods are overloaded for {@link LocalDate}, {@link LocalDateTime}, and {@link Date}.
  */
-public class DateUtils {
+public class RotomDateUtils {
 
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter DATETIME_FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

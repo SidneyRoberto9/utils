@@ -7,7 +7,7 @@ import java.util.Base64;
 /**
  * Utility class for Base64 encoding and decoding of strings and integers.
  */
-public class EncodingUtils {
+public class RotomEncodingUtils {
 
     /**
      * Encodes the given text to Base64 (UTF-8).

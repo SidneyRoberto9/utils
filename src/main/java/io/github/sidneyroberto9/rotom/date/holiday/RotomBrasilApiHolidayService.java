@@ -15,10 +15,10 @@ import java.util.Set;
 /**
  * Service for fetching Brazilian national holidays for a given year from the public
  * <a href="https://brasilapi.com.br/docs#tag/Feriados-Nacionais">BrasilAPI</a>.
- * Unlike {@link io.github.sidneyroberto9.rotom.date.DateService}, which relies on the offline
+ * Unlike {@link io.github.sidneyroberto9.rotom.date.RotomDateService}, which relies on the offline
  * jollyday calendar, this service performs a live HTTP call and reflects BrasilAPI's data as-is.
  */
-public class BrasilApiHolidayService {
+public class RotomBrasilApiHolidayService {
 
     private static final String HOLIDAYS_URL = "https://brasilapi.com.br/api/feriados/v1/";
 

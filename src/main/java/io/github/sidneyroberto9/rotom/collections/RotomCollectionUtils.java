@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Utility class for common collection operations.
  */
-public class CollectionUtils {
+public class RotomCollectionUtils {
 
     /**
      * Removes duplicate elements from the given list, preserving the order of first occurrence.

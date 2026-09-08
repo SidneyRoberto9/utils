@@ -2,11 +2,11 @@ package io.github.sidneyroberto9.rotom.mask;
 
 /**
  * Utility class for masking sensitive document numbers (LGPD-friendly display masking).
- * Unlike {@link io.github.sidneyroberto9.rotom.cpf.CPFService} and
- * {@link io.github.sidneyroberto9.rotom.cnpj.CNPJService}, these methods obscure most digits
+ * Unlike {@link io.github.sidneyroberto9.rotom.cpf.RotomCPFService} and
+ * {@link io.github.sidneyroberto9.rotom.cnpj.RotomCNPJService}, these methods obscure most digits
  * rather than just applying the standard punctuation mask.
  */
-public class MaskUtils {
+public class RotomMaskUtils {
 
     /**
      * Masks a CPF, revealing only the first 3 and last 2 digits.
