@@ -7,14 +7,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * Utility class for common file operations: Base64 encoding, human-readable size formatting,
- * and moving files into the current working directory.
+ * moving files into the current working directory, and safe file naming.
  */
 public class RotomFileUtils {
 
     private static final String SIZE_UNITS = " KMGTPE";
+    private static final Pattern UNSAFE_FILENAME_CHARS = Pattern.compile("[^a-zA-Z0-9._-]");
 
     /**
      * Reads the given file and encodes its content to Base64.
@@ -93,6 +96,47 @@ public class RotomFileUtils {
         Path target = Paths.get(this.workspaceDir(), targetName);
         Files.move(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING);
         return target.toFile();
+    }
+
+    /**
+     * Removes characters unsafe for file systems, keeping only letters, digits, dots, hyphens,
+     * and underscores; every other character is replaced with {@code _}.
+     *
+     * @param fileName file name to sanitize
+     * @return sanitized file name, or {@code null} if the input is null
+     */
+    public String sanitizeFileName(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+
+        return UNSAFE_FILENAME_CHARS.matcher(fileName).replaceAll("_");
+    }
+
+    /**
+     * Creates the given directory, including any missing parent directories, if it does not
+     * already exist. Does nothing if the directory is already present.
+     *
+     * @param path directory path to ensure
+     * @throws IOException if the directory cannot be created
+     */
+    public void ensureDirectoryExists(String path) throws IOException {
+        Path directory = Paths.get(path);
+
+        if (!Files.exists(directory)) {
+            Files.createDirectories(directory);
+        }
+    }
+
+    /**
+     * Generates a unique file name combining a random UUID and the current timestamp.
+     *
+     * @param extension file extension to append (without the leading dot), or {@code null}/blank for none
+     * @return unique file name
+     */
+    public String uniqueFileName(String extension) {
+        String base = UUID.randomUUID() + "_" + System.currentTimeMillis();
+        return extension != null && !extension.isBlank() ? base + "." + extension : base;
     }
 
     private String workspaceDir() {
