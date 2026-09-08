@@ -3,7 +3,9 @@ package io.github.sidneyroberto9.rotom.strings;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -21,6 +23,22 @@ public class RotomStringUtils {
 
     private static final Set<String> PT_CONNECTIVES = Set.of(
             "das", "des", "dos", "da", "de", "do", "e", "a", "o", "em", "na", "no", "para"
+    );
+
+    private static final Pattern TITLE_CASE_TOKEN = Pattern.compile(
+            "([\\p{L}\\p{M}\\p{N}]+)|([^\\p{L}\\p{M}\\p{N}]+)"
+    );
+    private static final Pattern SENTENCE_BOUNDARY = Pattern.compile("[-–|(:.]\\s*$");
+
+    private static final Set<String> PT_ARTICLES_PREPOSITIONS = Set.of(
+            "a", "à", "às", "ao", "aos", "as", "com", "da", "das", "de", "do", "dos", "e", "em",
+            "na", "nas", "no", "nos", "o", "os", "ou", "para", "pela", "pelas", "pelo", "pelos",
+            "por", "sem", "sob", "sobre", "um", "uma"
+    );
+
+    private static final Set<String> VALID_UF = Set.of(
+            "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG",
+            "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"
     );
 
     /**
@@ -349,7 +367,7 @@ public class RotomStringUtils {
 
         String first = parts[0];
         String last = parts[parts.length - 1];
-        return (first.substring(0, 1) + last.substring(0, 1)).toUpperCase();
+        return (first.charAt(0) + last.substring(0, 1)).toUpperCase();
     }
 
     /**
@@ -370,8 +388,8 @@ public class RotomStringUtils {
             return input;
         }
 
-        return digits.substring(0, 2) + "." + digits.substring(2, 3) + "."
-                + digits.substring(3, 10) + "-" + digits.substring(10, 11);
+        return digits.substring(0, 2) + "." + digits.charAt(2) + "."
+                + digits.substring(3, 10) + "-" + digits.charAt(10);
     }
 
     /**
@@ -387,5 +405,140 @@ public class RotomStringUtils {
         }
 
         return value.trim();
+    }
+
+    /**
+     * Applies Portuguese title case: capitalizes each word, except articles/prepositions
+     * ({@code da}, {@code de}, {@code para}, etc.) that do not start a sentence. Text ending in
+     * {@code .} or {@code ?} is treated as a sentence and lowercased throughout, aside from its
+     * first word and any recognized acronym.
+     * Example: {@code "TERMO DE RESPONSABILIDADE PARA USO DE EPI"} with {@code {"epi":"EPI"}} →
+     * {@code "Termo de Responsabilidade para Uso de EPI"}.
+     *
+     * @param value    text to convert
+     * @param acronyms map from lowercase word to its exact casing (e.g. {@code "cpf"→"CPF"}), preserved verbatim wherever matched; may be {@code null} or empty
+     * @return converted text, or an empty string if {@code value} is null
+     */
+    public String titleCasePt(String value, Map<String, String> acronyms) {
+        if (value == null) {
+            return "";
+        }
+
+        String collapsed = WHITESPACE.matcher(value.trim()).replaceAll(" ");
+
+        if (collapsed.isEmpty()) {
+            return "";
+        }
+
+        Map<String, String> dictionary = acronyms == null ? Map.of() : acronyms;
+
+        return collapsed.endsWith(".") || collapsed.endsWith("?")
+                ? this.sentenceCasePt(collapsed, dictionary)
+                : this.titleCaseWordsPt(collapsed, dictionary);
+    }
+
+    /**
+     * {@link #titleCasePt(String, Map)} without an acronym dictionary.
+     *
+     * @param value text to convert
+     * @return converted text, or an empty string if {@code value} is null
+     */
+    public String titleCasePt(String value) {
+        return this.titleCasePt(value, null);
+    }
+
+    /**
+     * Normalizes a Brazilian state abbreviation (UF): trims, uppercases, and keeps only the
+     * first two characters.
+     *
+     * @param uf state abbreviation, or a longer value starting with it
+     * @return normalized 2-letter UF, or {@code null} if the input is null or blank
+     */
+    public String normalizeUf(String uf) {
+        if (this.isBlank(uf)) {
+            return null;
+        }
+
+        String trimmed = uf.trim().toUpperCase();
+        return trimmed.length() > 2 ? trimmed.substring(0, 2) : trimmed;
+    }
+
+    /**
+     * Checks whether the given value, after normalization, is one of the 27 valid Brazilian
+     * state abbreviations (UF).
+     *
+     * @param uf state abbreviation to check
+     * @return {@code true} if it matches a valid UF; {@code false} otherwise
+     */
+    public boolean isValidUf(String uf) {
+        String normalized = this.normalizeUf(uf);
+        return normalized != null && VALID_UF.contains(normalized);
+    }
+
+    private String sentenceCasePt(String value, Map<String, String> acronyms) {
+        Matcher matcher = TITLE_CASE_TOKEN.matcher(value);
+        StringBuilder result = new StringBuilder();
+        boolean firstWordSeen = false;
+
+        while (matcher.find()) {
+            String word = matcher.group(1);
+
+            if (word == null) {
+                result.append(matcher.group());
+                continue;
+            }
+
+            String acronym = acronyms.get(word.toLowerCase());
+
+            if (acronym != null) {
+                result.append(acronym);
+                continue;
+            }
+
+            if (!firstWordSeen) {
+                firstWordSeen = true;
+                result.append(this.capitalize(word));
+            } else {
+                result.append(word.toLowerCase());
+            }
+        }
+
+        return result.toString();
+    }
+
+    private String titleCaseWordsPt(String value, Map<String, String> acronyms) {
+        Matcher matcher = TITLE_CASE_TOKEN.matcher(value);
+        StringBuilder result = new StringBuilder();
+        StringBuilder precedingText = new StringBuilder();
+
+        while (matcher.find()) {
+            String word = matcher.group(1);
+
+            if (word == null) {
+                String token = matcher.group();
+                precedingText.append(token);
+                result.append(token);
+                continue;
+            }
+
+            String lowerWord = word.toLowerCase();
+            String acronym = acronyms.get(lowerWord);
+
+            if (acronym != null) {
+                precedingText.append(word);
+                result.append(acronym);
+                continue;
+            }
+
+            boolean isSentenceStart = precedingText.toString().trim().isEmpty()
+                    || SENTENCE_BOUNDARY.matcher(precedingText).find();
+            precedingText.append(word);
+
+            result.append(!isSentenceStart && PT_ARTICLES_PREPOSITIONS.contains(lowerWord)
+                    ? lowerWord
+                    : this.capitalize(word));
+        }
+
+        return result.toString();
     }
 }
