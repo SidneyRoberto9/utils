@@ -1,10 +1,13 @@
 package io.github.sidneyroberto9.rotom.hash;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -107,6 +110,63 @@ public class RotomHashUtils {
      */
     public String sha512(byte[] data) {
         return this.hash(data, "SHA-512");
+    }
+
+    /**
+     * Computes the hash of {@code content} using {@code algorithm} and compares it, in constant
+     * time, to {@code expectedHash} (case-insensitive hexadecimal).
+     *
+     * @param content      text whose hash is computed
+     * @param expectedHash hexadecimal hash to compare against
+     * @param algorithm    {@link MessageDigest} algorithm name (e.g. {@code MD5}, {@code SHA-256}, {@code SHA-512})
+     * @return {@code true} if the computed hash matches {@code expectedHash}; {@code false} otherwise, including when {@code expectedHash} is null
+     * @throws IllegalArgumentException if {@code algorithm} is not supported by the JVM
+     */
+    public boolean matches(String content, String expectedHash, String algorithm) {
+        if (expectedHash == null) {
+            return false;
+        }
+
+        String computed = this.hash(content, algorithm);
+
+        return MessageDigest.isEqual(
+                computed.getBytes(StandardCharsets.UTF_8),
+                expectedHash.toLowerCase().getBytes(StandardCharsets.UTF_8)
+        );
+    }
+
+    /**
+     * Verifies an HMAC signature for the given payload — typically used to validate inbound
+     * webhook requests. Comparison is done in constant time.
+     *
+     * @param payload   raw request body the signature was computed over
+     * @param signature signature to verify, optionally prefixed (e.g. {@code "sha256="})
+     * @param secret    shared secret used to compute the HMAC
+     * @param algorithm {@link Mac} algorithm name (e.g. {@code HmacSHA256})
+     * @return {@code true} if the signature is valid; {@code false} if {@code payload}, {@code signature}, or {@code secret} is null, or the signature does not match
+     * @throws IllegalArgumentException if {@code algorithm} is not supported or {@code secret} is not a valid key for it
+     */
+    public boolean verifyHmac(String payload, String signature, String secret, String algorithm) {
+        if (payload == null || signature == null || secret == null) {
+            return false;
+        }
+
+        String providedHex = signature.contains("=")
+                ? signature.substring(signature.indexOf('=') + 1)
+                : signature;
+
+        try {
+            Mac mac = Mac.getInstance(algorithm);
+            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), algorithm));
+            String computedHex = this.toHex(mac.doFinal(payload.getBytes(StandardCharsets.UTF_8)));
+
+            return MessageDigest.isEqual(
+                    computedHex.getBytes(StandardCharsets.UTF_8),
+                    providedHex.toLowerCase().getBytes(StandardCharsets.UTF_8)
+            );
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            throw new IllegalArgumentException("Algoritmo ou chave HMAC inválidos: " + algorithm, e);
+        }
     }
 
     private MessageDigest digestFor(String algorithm) {
