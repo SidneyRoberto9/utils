@@ -102,6 +102,31 @@ public class RotomRandomUtil {
         return prefix + uuid;
     }
 
+    /**
+     * Generates {@code byteLength} cryptographically random bytes, formatted as a lowercase
+     * hexadecimal string (twice as long as {@code byteLength}).
+     *
+     * @param byteLength number of random bytes to generate
+     * @return random hexadecimal string
+     * @throws IllegalArgumentException if {@code byteLength} is not positive
+     */
+    public String randomHex(int byteLength) {
+        if (byteLength <= 0) {
+            throw new IllegalArgumentException("byteLength deve ser > 0");
+        }
+
+        byte[] bytes = new byte[byteLength];
+        this.random.nextBytes(bytes);
+
+        StringBuilder result = new StringBuilder(bytes.length * 2);
+
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b & 0xff));
+        }
+
+        return result.toString();
+    }
+
     private String randomFrom(String alphabet, int size) {
         if (size < 0) {
             throw new IllegalArgumentException("size deve ser >= 0");
