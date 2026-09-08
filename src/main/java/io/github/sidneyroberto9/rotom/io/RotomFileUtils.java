@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Base64;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -59,7 +60,7 @@ public class RotomFileUtils {
 
         int exp = (63 - Long.numberOfLeadingZeros(bytes)) / 10;
         double value = (double) bytes / (1L << (exp * 10));
-        return String.format("%.1f %sB", value, SIZE_UNITS.charAt(exp));
+        return String.format(Locale.US, "%.1f %sB", value, SIZE_UNITS.charAt(exp));
     }
 
     /**
