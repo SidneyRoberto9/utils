@@ -19,14 +19,14 @@ Brazilian-focused Java utility library with validators, formatters, CEP lookup, 
 <dependency>
     <groupId>io.github.sidneyroberto9</groupId>
     <artifactId>rotom</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 **Gradle**
 
 ```groovy
-implementation 'io.github.sidneyroberto9:rotom:1.0.5'
+implementation 'io.github.sidneyroberto9:rotom:1.1.0'
 ```
 
 ## Usage
@@ -35,12 +35,12 @@ All services can be instantiated directly or injected via Spring Boot auto-confi
 
 ---
 
-### CPFService
+### RotomCPFService
 
 Validates and formats Brazilian CPF numbers. Accepts masked or unmasked input.
 
 ```java
-CPFService cpf = new CPFService();
+RotomCPFService cpf = new RotomCPFService();
 
 cpf.isValid("529.982.247-25");   // true
 cpf.isValid("111.111.111-11");   // false — repeated digits
@@ -52,12 +52,12 @@ cpf.isFormatted("529.982.247-25"); // true
 
 ---
 
-### CNPJService
+### RotomCNPJService
 
 Validates and formats Brazilian CNPJ numbers. Accepts masked or unmasked input.
 
 ```java
-CNPJService cnpj = new CNPJService();
+RotomCNPJService cnpj = new RotomCNPJService();
 
 cnpj.isValid("11.222.333/0001-81");  // true
 cnpj.isValid("11.111.111/1111-11");  // false — repeated digits
@@ -69,14 +69,14 @@ cnpj.isFormatted("11.222.333/0001-81"); // true
 
 ---
 
-### CepService
+### RotomCepService
 
 Looks up Brazilian addresses by CEP with automatic multi-provider fallback.
 
 Default provider priority: **ViaCEP → OpenCEP → BrasilCEP → CEP.Rest → Zippopotam**
 
 ```java
-CepService cepService = new CepService();
+RotomCepService cepService = new RotomCepService();
 
 Address address = cepService.lookup("58038-000");
 // address.getLogradouro() → "Avenida Epitácio Pessoa"
@@ -91,17 +91,17 @@ If no provider returns data, an `Address` with all fields `null` (except `cep`) 
 **Custom providers**
 
 ```java
-CepService cepService = new CepService(List.of(new ViaCepProvider(), new OpenCepProvider()));
+RotomCepService cepService = new RotomCepService(List.of(new ViaCepProvider(), new OpenCepProvider()));
 ```
 
 ---
 
-### DateService
+### RotomDateService
 
 Business day calculations using the Brazilian national holiday calendar (jollyday).
 
 ```java
-DateService dateService = new DateService();
+RotomDateService dateService = new RotomDateService();
 
 LocalDate date = LocalDate.of(2025, 6, 9); // Monday
 
@@ -124,12 +124,12 @@ All methods are overloaded for `LocalDate`, `LocalDateTime`, and `java.util.Date
 
 ---
 
-### PhoneNumberService
+### RotomPhoneNumberService
 
 Formats and validates Brazilian phone numbers (mobile and landline).
 
 ```java
-PhoneNumberService phone = new PhoneNumberService();
+RotomPhoneNumberService phone = new RotomPhoneNumberService();
 
 phone.isValid("83986635812");           // true
 phone.isMobile("83986635812");          // true
@@ -148,12 +148,12 @@ Numbers with country code prefix `+55` or `55` are stripped automatically. Numbe
 
 ---
 
-### StringUtils
+### RotomStringUtils
 
 String manipulation with Brazilian Portuguese support.
 
 ```java
-StringUtils str = new StringUtils();
+RotomStringUtils str = new RotomStringUtils();
 
 // Null-safety
 str.isBlank(null);          // true
@@ -196,20 +196,20 @@ When Spring Boot is on the classpath, all services are registered as beans autom
 @Service
 public class MyService {
 
-    private final CPFService cpfService;
-    private final CNPJService cnpjService;
-    private final CepService cepService;
-    private final DateService dateService;
-    private final PhoneNumberService phoneNumberService;
-    private final StringUtils stringUtils;
+    private final RotomCPFService cpfService;
+    private final RotomCNPJService cnpjService;
+    private final RotomCepService cepService;
+    private final RotomDateService dateService;
+    private final RotomPhoneNumberService phoneNumberService;
+    private final RotomStringUtils stringUtils;
 
     public MyService(
-            CPFService cpfService,
-            CNPJService cnpjService,
-            CepService cepService,
-            DateService dateService,
-            PhoneNumberService phoneNumberService,
-            StringUtils stringUtils
+            RotomCPFService cpfService,
+            RotomCNPJService cnpjService,
+            RotomCepService cepService,
+            RotomDateService dateService,
+            RotomPhoneNumberService phoneNumberService,
+            RotomStringUtils stringUtils
     ) {
         this.cpfService = cpfService;
         this.cnpjService = cnpjService;
