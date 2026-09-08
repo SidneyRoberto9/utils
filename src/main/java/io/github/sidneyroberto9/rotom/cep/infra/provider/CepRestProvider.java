@@ -9,6 +9,16 @@ import java.util.Optional;
 
 public class CepRestProvider extends BaseProvider {
 
+    private final String baseUrl;
+
+    public CepRestProvider() {
+        this("https://cep.rest/cep/");
+    }
+
+    CepRestProvider(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @Override
     public String name() {
         return "CEP.Rest";
@@ -16,7 +26,7 @@ public class CepRestProvider extends BaseProvider {
 
     @Override
     public Optional<Address> fetch(String cep) throws IOException {
-        JsonNode data = this.get("https://cep.rest/cep/" + cep);
+        JsonNode data = this.get(this.baseUrl + cep);
 
         return CepRestMapper.map(data);
     }

@@ -9,6 +9,16 @@ import java.util.Optional;
 
 public class OpenCepProvider extends BaseProvider {
 
+    private final String baseUrl;
+
+    public OpenCepProvider() {
+        this("https://opencep.com/v1/");
+    }
+
+    OpenCepProvider(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @Override
     public String name() {
         return "OpenCEP";
@@ -16,7 +26,7 @@ public class OpenCepProvider extends BaseProvider {
 
     @Override
     public Optional<Address> fetch(String cep) throws IOException {
-        JsonNode data = this.get("https://opencep.com/v1/" + cep);
+        JsonNode data = this.get(this.baseUrl + cep);
 
         return OpenCepMapper.map(data);
     }

@@ -9,6 +9,16 @@ import java.util.Optional;
 
 public class ZippopotamProvider extends BaseProvider {
 
+    private final String baseUrl;
+
+    public ZippopotamProvider() {
+        this("https://api.zippopotam.us/br/");
+    }
+
+    ZippopotamProvider(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @Override
     public String name() {
         return "Zippopotam";
@@ -18,7 +28,7 @@ public class ZippopotamProvider extends BaseProvider {
     public Optional<Address> fetch(String cep) throws IOException {
         String formatted = cep.substring(0, 5) + "-" + cep.substring(5);
 
-        JsonNode data = this.get("https://api.zippopotam.us/br/" + formatted);
+        JsonNode data = this.get(this.baseUrl + formatted);
 
         return ZippopotamMapper.map(data);
     }

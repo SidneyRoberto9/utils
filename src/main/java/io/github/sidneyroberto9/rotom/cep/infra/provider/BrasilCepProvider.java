@@ -9,6 +9,16 @@ import java.util.Optional;
 
 public class BrasilCepProvider extends BaseProvider {
 
+    private final String baseUrl;
+
+    public BrasilCepProvider() {
+        this("https://brasilcep.dev/api/cep/");
+    }
+
+    BrasilCepProvider(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @Override
     public String name() {
         return "BrasilCEP";
@@ -16,7 +26,7 @@ public class BrasilCepProvider extends BaseProvider {
 
     @Override
     public Optional<Address> fetch(String cep) throws IOException {
-        JsonNode data = this.get("https://brasilcep.dev/api/cep/" + cep);
+        JsonNode data = this.get(this.baseUrl + cep);
 
         return BrasilCepMapper.map(data);
     }

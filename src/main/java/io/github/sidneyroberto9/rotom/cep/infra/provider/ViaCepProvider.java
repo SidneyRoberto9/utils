@@ -9,6 +9,16 @@ import java.util.Optional;
 
 public class ViaCepProvider extends BaseProvider {
 
+    private final String baseUrl;
+
+    public ViaCepProvider() {
+        this("https://viacep.com.br/ws/");
+    }
+
+    ViaCepProvider(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @Override
     public String name() {
         return "ViaCEP";
@@ -16,7 +26,7 @@ public class ViaCepProvider extends BaseProvider {
 
     @Override
     public Optional<Address> fetch(String cep) throws IOException {
-        JsonNode data = this.get("https://viacep.com.br/ws/" + cep + "/json/");
+        JsonNode data = this.get(this.baseUrl + cep + "/json/");
 
         return ViaCepMapper.map(data);
     }
