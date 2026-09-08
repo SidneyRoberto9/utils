@@ -19,14 +19,14 @@ Brazilian-focused Java utility library with validators, formatters, CEP lookup, 
 <dependency>
     <groupId>io.github.sidneyroberto9</groupId>
     <artifactId>rotom</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 **Gradle**
 
 ```groovy
-implementation 'io.github.sidneyroberto9:rotom:1.1.0'
+implementation 'io.github.sidneyroberto9:rotom:2.0.0'
 ```
 
 ## Usage
